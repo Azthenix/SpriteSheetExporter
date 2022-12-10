@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Service
+ServiceTypes=Krita/PythonPlugin
+X-KDE-Library=SpriteSheetExporter
+X-Python-2-Compatible=false
+X-Krita-Manual=Manual.html
+Name=SpriteSheet Exporter
+Comment=Exports SpriteSheets by Group
