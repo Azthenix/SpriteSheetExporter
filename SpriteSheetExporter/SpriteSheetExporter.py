@@ -14,10 +14,12 @@ class MyExtension(Extension):
 		pass
 
 	def exportDocument(self):
-		doc =  Krita.instance().activeDocument()
+		doc = Krita.instance().activeDocument()
 		if doc is not None:
 			sheet = self.compileLayers(doc)
-			fileName = QFileDialog.getSaveFileName()[0]
+			fileName = QFileDialog.getSaveFileName(None, "Save F:xile",
+                                       doc.fileName(),
+                                       "Images (*.png)")[0]
 			sheet.exportImage(fileName, InfoObject())
 	
 	def compileLayers(self, doc):
