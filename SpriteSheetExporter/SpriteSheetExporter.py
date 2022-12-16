@@ -3,7 +3,6 @@ from krita import *
 class MyExtension(Extension):
 
 	def __init__(self, parent):
-		# This is initialising the parent, always important when subclassing.
 		super().__init__(parent)
 
 	def setup(self):
@@ -15,17 +14,10 @@ class MyExtension(Extension):
 		pass
 
 	def exportDocument(self):
-		# Get the document:
 		doc =  Krita.instance().activeDocument()
-		# Saving a non-existent document causes crashes, so lets check for that first.
 		if doc is not None:
-
-			# Get the spritesheet document
-			sheet = self.compileLayers()
-			# This calls up the save dialog. The save dialog returns a tuple.
+			sheet = self.compileLayers(doc)
 			fileName = QFileDialog.getSaveFileName()[0]
-			# And export the document to the fileName location.
-			# InfoObject is a dictionary with specific export options, but when we make an empty one Krita will use the export defaults.
 			sheet.exportImage(fileName, InfoObject())
 	
 	def compileLayers(self, doc):
@@ -72,4 +64,4 @@ class MyExtension(Extension):
 		pass
 
 # And add the extension to Krita's list of extensions:
-Krita.instance().addExtension(MyExtension(krita.Krita.instance()))
+Krita.instance().addExtension(MyExtension(Krita.instance()))
