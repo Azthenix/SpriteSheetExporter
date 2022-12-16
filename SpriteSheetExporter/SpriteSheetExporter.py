@@ -1,6 +1,6 @@
-import krita
+from krita import *
 
-class MyExtension(krita.Extension):
+class MyExtension(Extension):
 
 	def __init__(self, parent):
 		# This is initialising the parent, always important when subclassing.
@@ -16,25 +16,26 @@ class MyExtension(krita.Extension):
 
 	def exportDocument(self):
 		# Get the document:
-		doc =  krita.Krita.instance().activeDocument()
+		doc =  Krita.instance().activeDocument()
 		# Saving a non-existent document causes crashes, so lets check for that first.
 		if doc is not None:
+
+			# Get the spritesheet document
 			sheet = self.compileLayers()
 			# This calls up the save dialog. The save dialog returns a tuple.
-			fileName = krita.QFileDialog.getSaveFileName()[0]
+			fileName = QFileDialog.getSaveFileName()[0]
 			# And export the document to the fileName location.
 			# InfoObject is a dictionary with specific export options, but when we make an empty one Krita will use the export defaults.
-			sheet.exportImage(fileName, krita.InfoObject())
+			sheet.exportImage(fileName, InfoObject())
 	
-	def compileLayers(self):
-		doc = krita.Krita.instance().activeDocument()
+	def compileLayers(self, doc):
 		doc.refreshProjection()
 		topNodes = doc.topLevelNodes()
 		w = doc.width()
 		h = doc.height()
 		res = doc.resolution()
 
-		sheet = krita.Krita.instance().createDocument(w, h, doc.name() + "Sheet", doc.colorModel(), doc.colorDepth(), doc.colorProfile(), res)
+		sheet = Krita.instance().createDocument(w, h, doc.name() + "Sheet", doc.colorModel(), doc.colorDepth(), doc.colorProfile(), res)
 		layer = sheet.createNode('bruh', 'paintlayer')
 		sheet.rootNode().addChildNode(layer, None)
 
@@ -71,4 +72,4 @@ class MyExtension(krita.Extension):
 		pass
 
 # And add the extension to Krita's list of extensions:
-krita.Krita.instance().addExtension(MyExtension(krita.Krita.instance()))
+Krita.instance().addExtension(MyExtension(krita.Krita.instance()))
