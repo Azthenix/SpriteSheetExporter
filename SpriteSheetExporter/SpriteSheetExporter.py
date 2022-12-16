@@ -1,4 +1,5 @@
 from krita import *
+import os
 
 class MyExtension(Extension):
 
@@ -18,7 +19,7 @@ class MyExtension(Extension):
 		if doc is not None:
 			sheet = self.compileLayers(doc)
 			fileName = QFileDialog.getSaveFileName(None, "Save F:xile",
-                                       doc.fileName(),
+                                       os.path.splitext(doc.fileName())[0],
                                        "Images (*.png)")[0]
 			sheet.exportImage(fileName, InfoObject())
 	
